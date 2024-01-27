@@ -1,46 +1,99 @@
-# Getting Started with Create React App
+# React Infinite Scroll Product Search App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Welcome to the React Infinite Scroll Product Search App! This application fetches product data from the [DummyJSON Product API](https://dummyjson.com/products) and displays items in sets of 20. Users can scroll to the bottom to fetch the next set of 20 items until all available items are displayed. Additionally, the app provides a search input box allowing users to search for products based on their query.
 
-## Available Scripts
+## Installation
 
-In the project directory, you can run:
+To install and run the app locally, follow these steps:
 
-### `npm start`
+1. Clone the repository:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+   ```bash
+   git clone <repository-url>
+   ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+2. Install dependencies:
 
-### `npm test`
+   ```bash
+   npm install
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Running the App
 
-### `npm run build`
+To run the app locally, use the following command:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm start
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The app will be available at [http://localhost:3000](http://localhost:3000) in your web browser.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Features
 
-### `npm run eject`
+### Infinite Scrolling
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The app implements infinite scrolling to fetch the next set of 20 products when the user scrolls to the bottom of the product list.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Product Search
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The app provides a search input box where users can type queries. While typing, the app fetches products from the [DummyJSON Product Search API](https://dummyjson.com/products/search?q=phone) based on the user's input.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Thought Process
 
-## Learn More
+### Infinite Scrolling
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+The implementation of infinite scrolling revolves around the decision-making process of when to trigger the `fetchProducts` function. This decision is based on calculating whether the user has reached the bottom of the product list. To manage this calculation, a custom hook called [`useInfiniteScroll.ts`](./src/hooks/useInfiniteScroll.ts)
+ has been created. This hook encapsulates the logic for detecting when the user has scrolled to the bottom and is utilized within a `useEffect` block.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Product Search
+
+Introducing the product search feature required additional consideration. Manual testing was conducted to ensure that products displayed match the user's query. A parameter called "query" (type: string) was added to the `fetchProducts` function to differentiate between fetching the next set of products and fetching products based on a user's search query.
+
+```javascript
+if (query === "") {
+  response = await axios.get(
+    `${API_URL}?limit=${limit}&skip=${skip}&select=${selectFields}`
+  );
+} else {
+  setProducts([]); // Clear existing products when searching
+  response = await axios.get(
+    `${API_URL}/search?q=${query}&limit=${limit}`
+  );
+}
+```
+
+This ensures that the correct API endpoint is called based on the presence of a search query.
+
+
+## Considerations
+
+- **Optimized API Calls:** To enhance the app's performance, the implementation includes a mechanism to prevent unnecessary API calls when all available products have been fetched and displayed. The total number of products is tracked and utilized in the infinite scroll mechanism to determine whether additional calls are needed.
+
+    Example:
+
+    ```javascript
+    // Inside the fetchProducts function
+    const fetchProducts = async (query: string) => {
+        try {
+            // API calling to get the response
+            const total = response.data.total; 
+            setTotalProducts(total);
+        }
+      // the rest of try-catch block
+    };
+
+    // Inside the useInfiniteScroll hook
+    useInfiniteScroll(() => {
+        if (products.length < totalProducts) {
+            // Prevent calling API when already fetched and displayed all available products
+            fetchProducts(searchQuery);
+        }
+    }, [loading, error, products, totalProducts]);
+    ```
+
+- **Styling:** The project follows a visually appealing design with the help of Material UI. The use of Material UI components ensures a consistent and responsive user interface. 
+
+
+## Contact Information
+
+For any questions or inquiries related to this coding test, please contact Vi via vptv1310@gmail.com.
