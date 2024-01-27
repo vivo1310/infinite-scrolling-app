@@ -9,10 +9,10 @@ To install and run the app locally, follow these steps:
 1. Clone the repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/vivo1310/infinite-scrolling-app.git
    ```
 
-2. Install dependencies:
+2. Change directory to `infinite-scrolling-app` and install dependencies:
 
    ```bash
    npm install
