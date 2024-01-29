@@ -93,6 +93,7 @@ This ensures that the correct API endpoint is called based on the presence of a 
 
 - **Styling:** The project follows a visually appealing design with the help of Material UI. The use of Material UI components ensures a consistent and responsive user interface. 
 
+- **Framework Choice:** I chose to develop the application using React as it aligns with my current skill set and experience. However, I am open to learning new technologies and, if given more time, I would explore creating the project using Vue JS. This would not only demonstrate my proficiency in React but also showcase my ability to adapt to different frameworks and technologies.
 
 ## Contact Information
 
