@@ -56,6 +56,7 @@ const App: React.FC = () => {
       // Prevent calling api when already fetch and display all available products
       fetchProducts(searchQuery);
     }
+    // eslint-disable-next-line
   }, [loading, error, products, totalProducts, searchQuery]);
 
   /**
