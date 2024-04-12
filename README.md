@@ -2,6 +2,8 @@
 
 Welcome to the React Infinite Scroll Product Search App! This application fetches product data from the [DummyJSON Product API](https://dummyjson.com/products) and displays items in sets of 20. Users can scroll to the bottom to fetch the next set of 20 items until all available items are displayed. Additionally, the app provides a search input box allowing users to search for products based on their query.
 
+[Live Preview](https://infinite-scrolling-app-delta.vercel.app/)
+
 ## Installation
 
 To install and run the app locally, follow these steps:
